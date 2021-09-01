@@ -5,6 +5,9 @@ spring:
     url: jdbc:mysql://localhost:3306/patika113hw4?characterEncoding=UTF8
     username: hbstudent
     password: hbstudent
+  sql:
+    init:
+      mode: never
 
   jpa:
     hibernate:
