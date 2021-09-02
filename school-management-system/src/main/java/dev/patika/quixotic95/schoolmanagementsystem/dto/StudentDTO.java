@@ -27,7 +27,7 @@ public class StudentDTO {
     @NotBlank(message = "last name is required!")
     private String lastName;
 
-    @ApiModelProperty(example = "2 Kiptaş Sokak")
+    @ApiModelProperty(example = "2 Kiptaş Street")
     @NotBlank(message = "address is required!")
     private String address;
 
@@ -39,4 +39,5 @@ public class StudentDTO {
     @ApiModelProperty(example = "MALE, FEMALE or OTHER")
     @NotNull(message = "gender must be specified!")
     private Gender gender;
+
 }

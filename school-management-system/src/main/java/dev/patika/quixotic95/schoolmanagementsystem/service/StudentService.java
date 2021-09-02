@@ -2,6 +2,7 @@ package dev.patika.quixotic95.schoolmanagementsystem.service;
 
 import dev.patika.quixotic95.schoolmanagementsystem.dto.StudentDTO;
 import dev.patika.quixotic95.schoolmanagementsystem.entity.Student;
+import dev.patika.quixotic95.schoolmanagementsystem.exception.StudentAgeNotValidException;
 import dev.patika.quixotic95.schoolmanagementsystem.mapper.StudentMapper;
 import dev.patika.quixotic95.schoolmanagementsystem.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,60 +30,95 @@ public class StudentService {
         return studentRepository.existsById(studentId);
     }
 
-    public List<Student> findAllStudents() {
-        List<Student> foundStudents = (List<Student>) studentRepository.findAll();
-        if (!foundStudents.isEmpty()) {
-            return foundStudents;
-        }
-        throw new EntityNotFoundException("No students found in database");
+    public List<StudentDTO> findAllStudents() {
+        return studentRepository.findAll()
+                .stream()
+                .map(studentMapper::mapFromStudentToStudentDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Student> findStudentById(long studentId) {
-        Optional<Student> foundStudent = studentRepository.findById(studentId);
-        if (foundStudent.isPresent()) {
-            return foundStudent;
-        }
-        throw new EntityNotFoundException("Student with id: " + studentId + " can not be found!");
+    public StudentDTO findStudentById(long studentId) {
+        return studentMapper.mapFromStudentToStudentDTO(studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id: " + studentId + " can not be found!")));
     }
 
     @Transactional
-    public Optional<Student> saveStudent(StudentDTO studentDTO) {
+    public StudentDTO saveStudent(StudentDTO studentDTO) {
+
+        checkStudentAge(studentDTO.getBirthDate());
+
         Student mappedStudent = studentMapper.mapFromStudentDTOtoStudent(studentDTO);
-        return Optional.of(studentRepository.save(mappedStudent));
+        return studentMapper.mapFromStudentToStudentDTO(studentRepository.save(mappedStudent));
     }
 
     @Transactional
-    public Optional<Student> updateStudent(StudentDTO studentDTO, long studentId) {
-        Optional<Student> foundStudent = studentRepository.findById(studentId);
-        if (foundStudent.isPresent()) {
-            Student mappedStudent = studentMapper.mapFromStudentDTOtoStudent(studentDTO);
-            mappedStudent.setId(studentId);
-            return (Optional.of(studentRepository.save(mappedStudent)));
-        }
-        throw new EntityNotFoundException("Student with id: " + studentId + " can not be found!");
+    public StudentDTO updateStudent(StudentDTO studentDTO, long studentId) {
+
+        Student foundStudent = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id: " + studentId + " can not be found!"));
+
+        checkStudentAge(studentDTO.getBirthDate());
+
+        Student mappedStudent = studentMapper.mapFromStudentDTOtoStudent(studentDTO);
+        mappedStudent.setId(studentId);
+        mappedStudent.setStudentCourses(foundStudent.getStudentCourses());
+
+        return studentMapper.mapFromStudentToStudentDTO(studentRepository.save(mappedStudent));
     }
 
     @Transactional
-    public Optional<Student> deleteStudent(StudentDTO studentDTO) {
-        Optional<Student> foundStudent = studentRepository.findStudentByFirstNameAndLastNameAndAddressAndGender(studentDTO.getFirstName(),
+    public StudentDTO deleteStudent(StudentDTO studentDTO) {
+
+        Student foundStudent = studentRepository.findStudentByFirstNameAndLastNameAndAddressAndGender(studentDTO.getFirstName(),
                 studentDTO.getLastName(),
                 studentDTO.getAddress(),
-                studentDTO.getGender());
-        if (foundStudent.isPresent()) {
-            studentRepository.delete(foundStudent.get());
-            return foundStudent;
-        }
-        throw new EntityNotFoundException("Student can not be found!");
+                studentDTO.getGender()).orElseThrow(() -> new EntityNotFoundException("Student can not be found!"));
+
+        StudentDTO result = studentMapper.mapFromStudentToStudentDTO(foundStudent);
+        studentRepository.delete(foundStudent);
+        return result;
     }
 
     @Transactional
-    public Optional<Student> deleteStudentById(long studentId) {
-        Optional<Student> foundStudent = studentRepository.findById(studentId);
-        if (foundStudent.isPresent()) {
-            studentRepository.deleteById(studentId);
-            return foundStudent;
+    public StudentDTO deleteStudentById(long studentId) {
+
+        Student foundStudent = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id: " + studentId + " can not be found!"));
+
+        StudentDTO result = studentMapper.mapFromStudentToStudentDTO(foundStudent);
+        studentRepository.deleteById(studentId);
+        return result;
+    }
+
+    public Set<Student> findAllCourseStudentsById(List<Long> studentIds) {
+
+        Set<Student> students = new HashSet<>();
+
+        for (long l : studentIds) {
+            students.add(studentRepository.findById(l)
+                    .orElseThrow(() -> new EntityNotFoundException("Student with id: " + l + " can not be found!")));
         }
-        throw new EntityNotFoundException("Student can not be found!");
+        return students;
+    }
+
+    public List<Long> findAllCourseStudentIdsByList(Set<Student> students) {
+
+        List<Long> studentIds = new ArrayList<>();
+
+        for (Student s : students) {
+            studentIds.add(s.getId());
+        }
+        return studentIds;
+    }
+
+    private void checkStudentAge(LocalDate birthDate) {
+
+        Period period = Period.between(birthDate, LocalDate.now());
+        int studentAge = period.getYears();
+
+        if (studentAge < 18 || studentAge > 40) {
+            throw new StudentAgeNotValidException("Student age must be between 18 and 40!");
+        }
     }
 
 }

@@ -5,10 +5,10 @@ import dev.patika.quixotic95.schoolmanagementsystem.entity.Student;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface StudentMapper {
+public abstract class StudentMapper {
 
-    StudentDTO mapFromStudentToStudentDTO(Student student);
+    public abstract StudentDTO mapFromStudentToStudentDTO(Student student);
 
-    Student mapFromStudentDTOtoStudent(StudentDTO studentDTO);
+    public abstract Student mapFromStudentDTOtoStudent(StudentDTO studentDTO);
 
 }
