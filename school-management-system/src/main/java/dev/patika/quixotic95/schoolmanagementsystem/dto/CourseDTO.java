@@ -36,7 +36,7 @@ public class CourseDTO {
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     private long instructorId;
 
-    @ApiModelProperty(example = "2, 9, 12")
+    @ApiModelProperty(example = "[2, 9, 12]")
     private List<Long> studentIds;
 
 }
