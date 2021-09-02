@@ -30,6 +30,7 @@ public class Student extends Person {
             joinColumns = {@JoinColumn(name = "student_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")}
     )
+    @EqualsAndHashCode.Exclude
     private Set<Course> studentCourses = new HashSet<>();
 
 }

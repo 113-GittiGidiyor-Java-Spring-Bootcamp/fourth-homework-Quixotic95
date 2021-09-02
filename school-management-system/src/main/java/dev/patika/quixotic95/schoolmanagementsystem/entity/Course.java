@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +18,7 @@ import java.util.Set;
 public class Course extends GenericEntity {
 
     private String courseName;
+    @EqualsAndHashCode.Include
     private String courseCode;
     private double creditScore;
 

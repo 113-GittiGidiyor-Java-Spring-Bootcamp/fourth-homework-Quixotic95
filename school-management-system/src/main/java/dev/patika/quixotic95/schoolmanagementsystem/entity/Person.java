@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.MappedSuperclass;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

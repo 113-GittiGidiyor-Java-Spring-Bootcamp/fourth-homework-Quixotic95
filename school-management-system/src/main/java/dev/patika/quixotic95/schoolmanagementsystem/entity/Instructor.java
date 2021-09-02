@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +25,7 @@ public class Instructor extends Person {
 
     @OneToMany(mappedBy = "courseInstructor")
     @JsonManagedReference
+    @EqualsAndHashCode.Exclude
     private Set<Course> instructorCourses = new HashSet<>();
 
 }
