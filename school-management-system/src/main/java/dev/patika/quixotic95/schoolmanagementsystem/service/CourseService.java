@@ -40,7 +40,7 @@ public class CourseService {
     @Transactional
     public CourseDTO saveCourse(CourseDTO courseDTO) {
 
-        checkIfCourseExists(courseDTO.getCourseCode(), courseDTO.getId());
+        checkIfCourseExists(courseDTO.getCourseCode(), 0);
 
         Course mappedCourse = courseMapper.mapFromCourseDTOtoCourse(courseDTO);
 
