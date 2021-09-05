@@ -26,10 +26,6 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
 
-    public boolean existsById(long studentId) {
-        return studentRepository.existsById(studentId);
-    }
-
     public List<StudentDTO> findAllStudents() {
         return studentRepository.findAll()
                 .stream()

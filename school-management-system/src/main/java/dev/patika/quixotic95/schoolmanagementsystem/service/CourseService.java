@@ -3,6 +3,7 @@ package dev.patika.quixotic95.schoolmanagementsystem.service;
 import dev.patika.quixotic95.schoolmanagementsystem.dto.CourseDTO;
 import dev.patika.quixotic95.schoolmanagementsystem.entity.Course;
 import dev.patika.quixotic95.schoolmanagementsystem.exception.CourseIsAlreadyExistException;
+import dev.patika.quixotic95.schoolmanagementsystem.exception.StudentNumberForOneCourseExceededException;
 import dev.patika.quixotic95.schoolmanagementsystem.mapper.CourseMapper;
 import dev.patika.quixotic95.schoolmanagementsystem.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,6 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
 
-    public boolean existsById(long courseId) {
-        return courseRepository.existsById(courseId);
-    }
-
     public List<CourseDTO> findAllCourses() {
         return courseRepository.findAll()
                 .stream()
@@ -42,6 +39,8 @@ public class CourseService {
 
         checkIfCourseExists(courseDTO.getCourseCode(), 0);
 
+        checkIfCourseHasMoreThanTwentyStudents(courseDTO.getStudentIds().size());
+
         Course mappedCourse = courseMapper.mapFromCourseDTOtoCourse(courseDTO);
 
         return courseMapper.mapFromCourseToCourseDTO(courseRepository.save(mappedCourse));
@@ -54,6 +53,8 @@ public class CourseService {
                 .orElseThrow(() -> new EntityNotFoundException("Course with id: " + courseId + " can not be found!"));
 
         checkIfCourseExists(courseDTO.getCourseCode(), courseId);
+
+        checkIfCourseHasMoreThanTwentyStudents(courseDTO.getStudentIds().size());
 
         Course mappedCourse = courseMapper.mapFromCourseDTOtoCourse(courseDTO);
         mappedCourse.setId(courseId);
@@ -87,6 +88,12 @@ public class CourseService {
 
         if (courseRepository.findCourseByCourseCodeAndIdIsNot(courseCode, courseId).isPresent()) {
             throw new CourseIsAlreadyExistException("A course with this course code already exists!");
+        }
+    }
+
+    private void checkIfCourseHasMoreThanTwentyStudents(int numberOfStudents) {
+        if (numberOfStudents > 20) {
+            throw new StudentNumberForOneCourseExceededException("Course can maximum have 20 students!");
         }
     }
 

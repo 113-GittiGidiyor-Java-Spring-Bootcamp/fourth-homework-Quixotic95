@@ -25,10 +25,6 @@ public class InstructorService {
     private final InstructorRepository<?> instructorRepository;
     private final InstructorMapper instructorMapper;
 
-    public boolean existsById(long instructorId) {
-        return instructorRepository.existsById(instructorId);
-    }
-
     public List<InstructorDTO> findAllInstructors() {
 
         List<Instructor> foundInstructors = instructorRepository.findAll();
