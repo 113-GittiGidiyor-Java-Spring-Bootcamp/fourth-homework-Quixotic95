@@ -28,7 +28,7 @@ public class ExceptionLoggerController {
     @GetMapping("/exceptionLogs")
     public ResponseEntity<?> getExceptionLogs(@RequestParam String type,
                                               @RequestParam(required = false) @DateTimeFormat(pattern = "YYYY-MM-DD") String date) {
-        List<ExceptionLoggerDTO> result = exceptionLoggerService.findByTypeAndOrDate(type, LocalDate.parse(date));
+        List<ExceptionLoggerDTO> result = exceptionLoggerService.findByTypeAndOrDate(type, date);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

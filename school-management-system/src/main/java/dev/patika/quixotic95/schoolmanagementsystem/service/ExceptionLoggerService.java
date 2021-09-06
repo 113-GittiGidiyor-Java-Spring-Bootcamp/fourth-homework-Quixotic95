@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +21,11 @@ public class ExceptionLoggerService {
     private final ExceptionLoggerRepository exceptionLoggerRepository;
     private final ExceptionLoggerMapper exceptionLoggerMapper;
 
-    public List<ExceptionLoggerDTO> findByTypeAndOrDate(String type, LocalDate date) {
+    public List<ExceptionLoggerDTO> findByTypeAndOrDate(String type, String date) {
 
         if (!(date == null)) {
-            return exceptionLoggerRepository.findByStatusCodeContainingAndTimestampBetween(type, date.atStartOfDay(), date.plusDays(1).atStartOfDay())
+            LocalDate parsedDate = LocalDate.parse(date);
+            return exceptionLoggerRepository.findByStatusCodeContainingAndTimestampBetween(type, parsedDate.atStartOfDay(), parsedDate.plusDays(1).atStartOfDay())
                     .orElseThrow(() -> new EntityNotFoundException("Found no exception log on database like this."))
                     .stream()
                     .map(exceptionLoggerMapper::toDto)
