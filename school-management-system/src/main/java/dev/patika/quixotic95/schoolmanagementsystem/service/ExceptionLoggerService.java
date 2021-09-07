@@ -9,10 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * ExceptionLoggerService class for:
+ * calling read operation of exception logs from database
+ */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,6 +24,21 @@ public class ExceptionLoggerService {
     private final ExceptionLoggerRepository exceptionLoggerRepository;
     private final ExceptionLoggerMapper exceptionLoggerMapper;
 
+    /**
+     * checks if date is sent or not
+     * <p>
+     * if sent, calls findByStatusCodeContainingAndTimestampBetween() from repository with given date and type
+     * for date, parses String date to two LocalDateTime variable.
+     * for example, string 2021-09-06 becomes 2021-09-06 00:00:00 and 2021-09-07 00:00:00
+     * and searches the exception between these days.
+     * <p>
+     * if not sent, calls findByStatusCodeContaining() from repository with given type
+     * searches database with LIKE keyword for the given type.
+     *
+     * @param type - type/status code of the exception. Could take code like:"400", "404" or "BAD_REQUEST", "NOT_FOUND"
+     * @param date - thrown date of the exception
+     * @return List<ExceptionLoggerDTO> - List of found exceptions through query mapped to ExceptionLoggerDTOs
+     */
     public List<ExceptionLoggerDTO> findByTypeAndOrDate(String type, String date) {
 
         if (!(date == null)) {
