@@ -28,7 +28,7 @@ public class CourseService {
     private final CourseMapper courseMapper;
 
     /**
-     * calls findAll() from repository
+     * calls findAll() method from repository
      * maps returned Courses to CourseDTOs
      *
      * @return List<CourseDTO> - CourseDTO list
@@ -41,8 +41,9 @@ public class CourseService {
     }
 
     /**
-     * calls findById() from repository with given courseId
-     * maps returned Course to CourseDTO
+     * calls findById() method from repository with given courseId
+     * throws an exception if Course is not found,
+     * else maps returned Course to CourseDTO
      *
      * @param courseId - ID of the Course
      * @return CourseDTO - found Course mapped to CourseDTO
@@ -56,7 +57,7 @@ public class CourseService {
      * checks if Course already exists in database with given CourseDTO's courseCode
      * if it doesn't exist, checks if given CourseDTO object has more than 20 Students
      * if student count is not more than 20, maps CourseDTO to Course
-     * calls save() from repository with Course object
+     * calls save() method from repository with Course object
      *
      * @param courseDTO - CourseDTO request object
      * @return CourseDTO - saved Course mapped to CourseDTO
@@ -80,7 +81,7 @@ public class CourseService {
      * while checking courseCode, excludes the updated one.
      * checks if given CourseDTO object has more than 20 Students
      * maps CourseDTO to Course
-     * calls save() from repository with Course object
+     * calls save() method from repository with Course object
      *
      * @param courseDTO - CourseDTO request object
      * @param courseId  - ID of the will updated Course
@@ -106,7 +107,7 @@ public class CourseService {
      * checks if Course exists in database with given CourseDTOs' courseCode
      * if it doesn't exist, throws an exception
      * if it exists, maps the found Course to CourseDTO
-     * calls delete() from repository with found Course object
+     * calls delete() method from repository with found Course object
      *
      * @param courseDTO - CourseDTO request object
      * @return CourseDTO - mapped CourseDTO from found Course object
@@ -126,7 +127,7 @@ public class CourseService {
      * checks if Course exists with given courseId
      * if it doesn't exist, throws an exception
      * if it exists, maps the found Course to CourseDTO
-     * calls delete() from repository with found Course object
+     * calls delete() method from repository with found Course object
      *
      * @param courseId - ID of the will deleted Course
      * @return CourseDTO - mapped CourseDTO from found Course object
@@ -144,7 +145,7 @@ public class CourseService {
 
     /**
      * helper method for checking if a course already exists in database with given courseCode
-     * calls findCourseByCourseCodeAndIdIsNot(courseCode, courseId) from repository
+     * calls findCourseByCourseCodeAndIdIsNot(courseCode, courseId) method from repository
      * if a course found with this given courseCode, throws an exception.
      *
      * @param courseCode - courseCode to search in database
