@@ -31,8 +31,9 @@ public class InstructorService {
     private final InstructorMapper instructorMapper;
 
     /**
-     * calls findAll() from repository
-     * maps returned Instructors to InstructorDTOs
+     * calls findAll() method from repository
+     * checks the Instructors' subclass types and
+     * maps returned Instructors to related InstructorDTOs
      *
      * @return List<InstructorDTO> - InstructorDTO list
      */
@@ -54,7 +55,7 @@ public class InstructorService {
     }
 
     /**
-     * calls findById() from repository with given instructorId
+     * calls findById() method from repository with given instructorId
      * checks the foundInstructor if it's a PermanentInstructor or VisitingResearcher
      * maps found Instructor to related InstructorDTO
      *
@@ -76,7 +77,7 @@ public class InstructorService {
      * checks if PermanentInstructor already exists in Instructor database table with given permanentInstructorDTO's phoneNumber
      * if it exists, throws an exception
      * if it does not, maps the permanentInstructorDTO to PermanentInstructor
-     * calls save() from repository with PermanentInstructor object
+     * calls save() method from repository with PermanentInstructor object
      *
      * @param permanentInstructorDTO - PermanentInstructorDTO request object
      * @return InstructorDTO - saved PermanentInstructor mapped to PermanentInstructorDTO
@@ -95,7 +96,7 @@ public class InstructorService {
      * checks if VisitingResearcher already exists in Instructor database table with given visitingResearcherDTO's phoneNumber
      * if it exists, throws an exception
      * if it does not, maps the visitingResearcherDTO to VisitingResearcher
-     * calls save() from repository with VisitingResearcher object
+     * calls save() method from repository with VisitingResearcher object
      *
      * @param visitingResearcherDTO - VisitingResearcherDTO request object
      * @return InstructorDTO - saved VisitingResearcher mapped to VisitingResearcherDTO
@@ -116,7 +117,7 @@ public class InstructorService {
      * if it exists, checks permanentInstructorDTO's phoneNumber if any other Instructor has the same phoneNumber
      * while checking the phoneNumber, excludes the updated one.
      * maps PermanentInstructorDTO to PermanentInstructor
-     * calls save() from repository with PermanentInstructor object
+     * calls save() method from repository with PermanentInstructor object
      *
      * @param permanentInstructorDTO - PermanentInstructorDTO request object
      * @param instructorId           - ID of the will updated PermanentInstructor
@@ -142,7 +143,7 @@ public class InstructorService {
      * if it exists, checks visitingResearcherDTO's phoneNumber if any other Instructor has the same phoneNumber
      * while checking the phoneNumber, excludes the updated one.
      * maps VisitingResearcherDTO to VisitingResearcher
-     * calls save() from repository with VisitingResearcher object
+     * calls save() method from repository with VisitingResearcher object
      *
      * @param visitingResearcherDTO - VisitingResearcherDTO request object
      * @param instructorId          - ID of the will updated VisitingResearcher
@@ -166,7 +167,7 @@ public class InstructorService {
      * checks if PermanentInstructor exits in database with given PermanentInstructorDTO's phoneNumber
      * if it doesn't exist, throws an exception
      * if it exists, maps the found PermanentInstructor to PermanentInstructorDTO
-     * calls delete() from repository with found PermanentInstructor object
+     * calls delete() method from repository with found PermanentInstructor object
      *
      * @param permanentInstructorDTO - PermanentInstructorDTO request object
      * @return PermanentInstructorDTO - mapped PermanentInstructorDTO from found PermanentInstructor object
@@ -185,7 +186,7 @@ public class InstructorService {
      * checks if VisitingResearcher exits in database with given VisitingResearcherDTO's phoneNumber
      * if it doesn't exist, throws an exception
      * if it exists, maps the found VisitingResearcher to VisitingResearcherDTO
-     * calls delete() from repository with found VisitingResearcher object
+     * calls delete() method from repository with found VisitingResearcher object
      *
      * @param visitingResearcherDTO - VisitingResearcherDTO request object
      * @return VisitingResearcherDTO - mapped VisitingResearcherDTO from found VisitingResearcher object
@@ -204,7 +205,7 @@ public class InstructorService {
      * checks if Instructor exists in database with given instructorId
      * if it does not exist, throws an exception.
      * if it exists, due to Instructor's subtype, it makes the mapping process to related DTO
-     * deletes the found instructor via calling delete() from repository
+     * deletes the found instructor via calling delete() method from repository
      *
      * @param instructorId - ID of the will deleted Instructor
      * @return InstructorDTO - mapped related InstructorDTO of the deleted Instructor
@@ -242,7 +243,7 @@ public class InstructorService {
     /**
      * helper method for checking if an Instructor with given phoneNumber exists in database
      * calls findInstructorByPhoneNumberAndIdIsNot() method from repository
-     * with given phoneNumber and excludes given instructorId for not preventing update opertaion with same phoneNumber.
+     * with given phoneNumber and excludes given instructorId for not preventing update operation with same phoneNumber.
      *
      * @param phoneNumber  - phoneNumber of Instructor for checking uniqueness
      * @param instructorId - ID of the Instructor for excluding phoneNumber check on update methods
