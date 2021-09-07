@@ -29,7 +29,8 @@ public class CourseService {
 
     /**
      * calls findAll() from repository
-     * maps returned Courses' to CourseDTOs'
+     * maps returned Courses to CourseDTOs
+     *
      * @return List<CourseDTO> - CourseDTO list
      */
     public List<CourseDTO> findAllCourses() {
@@ -40,8 +41,9 @@ public class CourseService {
     }
 
     /**
-     * calls findCourseById() from repository with given courseId
+     * calls findById() from repository with given courseId
      * maps returned Course to CourseDTO
+     *
      * @param courseId - ID of the Course
      * @return CourseDTO - found Course mapped to CourseDTO
      */
@@ -51,10 +53,11 @@ public class CourseService {
     }
 
     /**
-     * checks if Course already exists in database with given CourseDTOs' CourseCode
+     * checks if Course already exists in database with given CourseDTO's courseCode
      * if it doesn't exist, checks if given CourseDTO object has more than 20 Students
      * if student count is not more than 20, maps CourseDTO to Course
      * calls save() from repository with Course object
+     *
      * @param courseDTO - CourseDTO request object
      * @return CourseDTO - saved Course mapped to CourseDTO
      */
@@ -73,13 +76,14 @@ public class CourseService {
     /**
      * checks if Course exists with given courseId
      * if it doesn't exist, throws an exception
-     * if it exists, checks courseDTO request if any other Course has the same CourseCode
-     * while checking CourseCode, excludes the updated one.
+     * if it exists, checks courseDTO request if any other Course has the same courseCode
+     * while checking courseCode, excludes the updated one.
      * checks if given CourseDTO object has more than 20 Students
      * maps CourseDTO to Course
      * calls save() from repository with Course object
+     *
      * @param courseDTO - CourseDTO request object
-     * @param courseId - ID of the will updated Course
+     * @param courseId  - ID of the will updated Course
      * @return CourseDTO - updated Course mapped to CourseDTO
      */
     @Transactional
@@ -99,10 +103,11 @@ public class CourseService {
     }
 
     /**
-     * checks if Course exists in database with given CourseDTOs' CourseCode
+     * checks if Course exists in database with given CourseDTOs' courseCode
      * if it doesn't exist, throws an exception
      * if it exists, maps the found Course to CourseDTO
      * calls delete() from repository with found Course object
+     *
      * @param courseDTO - CourseDTO request object
      * @return CourseDTO - mapped CourseDTO from found Course object
      */
@@ -122,6 +127,7 @@ public class CourseService {
      * if it doesn't exist, throws an exception
      * if it exists, maps the found Course to CourseDTO
      * calls delete() from repository with found Course object
+     *
      * @param courseId - ID of the will deleted Course
      * @return CourseDTO - mapped CourseDTO from found Course object
      */
@@ -137,11 +143,12 @@ public class CourseService {
     }
 
     /**
-     * helper method for checking if a course already exists in database with given CourseCode
+     * helper method for checking if a course already exists in database with given courseCode
      * calls findCourseByCourseCodeAndIdIsNot(courseCode, courseId) from repository
      * if a course found with this given courseCode, throws an exception.
+     *
      * @param courseCode - courseCode to search in database
-     * @param courseId - courseId to exclude from search. Used in update method to exclude updated Course's courseCode to prevent conflict.
+     * @param courseId   - courseId to exclude from search. Used in update method to exclude updated Course's courseCode to prevent conflict.
      */
     private void checkIfCourseExists(String courseCode, long courseId) {
 
@@ -154,6 +161,7 @@ public class CourseService {
      * helper method for checking if a course has more than 20 students.
      * checks received integer number if it's greater than 20.
      * if it's, throws an exception.
+     *
      * @param numberOfStudents - integer value of CourseDTOs' students' list size.
      */
     private void checkIfCourseHasMoreThanTwentyStudents(int numberOfStudents) {
