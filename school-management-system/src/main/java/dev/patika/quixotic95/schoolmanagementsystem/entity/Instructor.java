@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +20,7 @@ public class Instructor extends Person {
 
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "courseInstructor")
+    @OneToMany(mappedBy = "courseInstructor", cascade = CascadeType.ALL)
     @JsonManagedReference
     @EqualsAndHashCode.Exclude
     private Set<Course> instructorCourses = new HashSet<>();
