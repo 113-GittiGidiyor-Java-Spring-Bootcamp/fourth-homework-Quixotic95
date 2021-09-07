@@ -27,10 +27,15 @@ A system with Students, Courses and 2 types of Instructors all related to each o
 
 3. Due to MVC design pattern, project will have ->
 
-* `Entity`
-* `Repository`
-* `Service`
-* `Controller` layers.
+* `entity`
+* `repository`
+* `service`
+* `controller` layers. 
+* +++
+* `Config` for Swagger2 implementation
+* `dto` for request/response specialization
+* `exception` for custom case exceptions
+* `mapper` for mapstruct API usage
 
 4. For some special cases, specialized Exceptions will be thrown ->
 
@@ -57,6 +62,13 @@ A system with Students, Courses and 2 types of Instructors all related to each o
         * Spring Boot `2.5.4`
         * Dependencies
         * Plugins
+
+## Usage
+1. Run the program.
+2. Go to [SwaggerUI](http://localhost:8080/swagger-ui.html) from your browser.
+3. Use the controllers for CRUD operations.
+4. For exception-logger-controller, date must be formatted as **'YYYY-MM-DD'** and type should be like **'404 NOT_FOUND'** or **'404'** or **'NOT_FOUND'**
+
 
 ## License
 
