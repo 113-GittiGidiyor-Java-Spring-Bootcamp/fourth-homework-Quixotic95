@@ -19,20 +19,20 @@ public class CourseDTO {
     private long id;
 
     @ApiModelProperty(example = "Ataturk’s Principles and Turkish Revolution History")
-    @NotBlank
+    @NotBlank(message = "course name is required!")
     private String courseName;
 
     @ApiModelProperty(example = "ATA1001")
-    @NotBlank
+    @NotBlank(message = "a course cannot be created without course code!")
     private String courseCode;
 
     @ApiModelProperty(example = "6")
-    @NotNull
+    @NotNull(message = "credit score is required!")
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     private double creditScore;
 
     @ApiModelProperty(example = "1")
-    @NotNull
+    @NotNull(message = "a course cannot be created without instructor!")
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     private long instructorId;
 

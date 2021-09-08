@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class VisitingResearcherDTO extends InstructorDTO {
 
     @ApiModelProperty(example = "300")
+    @NotNull
     private double hourlySalary;
 
 }

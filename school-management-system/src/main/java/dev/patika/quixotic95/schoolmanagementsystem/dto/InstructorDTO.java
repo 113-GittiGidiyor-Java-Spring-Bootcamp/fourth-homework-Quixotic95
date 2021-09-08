@@ -38,6 +38,7 @@ public class InstructorDTO {
     private String address;
 
     @ApiModelProperty(example = "541-851-9986")
+    @NotBlank(message = "an instructor cannot be created without phone number!")
     private String phoneNumber;
 
 }
