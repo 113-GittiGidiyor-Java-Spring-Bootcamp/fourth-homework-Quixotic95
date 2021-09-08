@@ -42,14 +42,14 @@ public class StudentController {
 
     // mapping for PUT /students/{studentId} - update an existing student
     @PutMapping("/students/{studentId}")
-    public ResponseEntity<?> updateStudent(@PathVariable long studentId, @RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<?> updateStudent(@PathVariable long studentId, @RequestBody @Valid StudentDTO studentDTO) {
         StudentDTO result = studentService.updateStudent(studentDTO, studentId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // mapping for DELETE /students - delete student
     @DeleteMapping("/students")
-    public ResponseEntity<?> deleteStudent(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<?> deleteStudent(@RequestBody @Valid StudentDTO studentDTO) {
         StudentDTO result = studentService.deleteStudent(studentDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

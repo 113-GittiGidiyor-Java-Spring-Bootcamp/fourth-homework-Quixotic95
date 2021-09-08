@@ -45,14 +45,14 @@ public class CourseController {
 
     // mapping for PUT /courses - update existing course
     @PutMapping("/courses/{courseId}")
-    public ResponseEntity<?> updateCourse(@PathVariable long courseId, @RequestBody CourseDTO courseDTO) {
+    public ResponseEntity<?> updateCourse(@PathVariable long courseId, @RequestBody @Valid CourseDTO courseDTO) {
         CourseDTO result = courseService.updateCourse(courseDTO, courseId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // mapping for DELETE /courses - delete course
     @DeleteMapping("/courses")
-    public ResponseEntity<?> deleteCourse(@RequestBody CourseDTO courseDTO) {
+    public ResponseEntity<?> deleteCourse(@RequestBody @Valid CourseDTO courseDTO) {
         CourseDTO result = courseService.deleteCourse(courseDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
